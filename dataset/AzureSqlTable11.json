@@ -1,0 +1,112 @@
+{
+	"name": "AzureSqlTable11",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Row ID",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Order ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Ship Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Ship Mode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Customer ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Customer Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Segment",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "City",
+				"type": "nvarchar"
+			},
+			{
+				"name": "State",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Postal Code",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Region",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Product ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sub-Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Product Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sales",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Quantity",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Discount",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Profit",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Excel_Orders"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

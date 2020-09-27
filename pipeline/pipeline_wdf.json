@@ -1,0 +1,29 @@
+{
+	"name": "pipeline_wdf",
+	"properties": {
+		"activities": [
+			{
+				"name": "WranglingDataFlow_Test",
+				"type": "ExecuteWranglingDataflow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "WranglingDataFlow_Test",
+						"type": "DataFlowReference"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-09-16T13:16:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

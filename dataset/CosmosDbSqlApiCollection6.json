@@ -1,0 +1,65 @@
+{
+	"name": "CosmosDbSqlApiCollection6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDb_WEB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"CustomerID": {
+					"type": "integer"
+				},
+				"NameStyle": {
+					"type": "boolean"
+				},
+				"Title": {
+					"type": "string"
+				},
+				"FirstName": {
+					"type": "string"
+				},
+				"MiddleName": {
+					"type": "string"
+				},
+				"LastName": {
+					"type": "string"
+				},
+				"Suffix": {
+					"type": "null"
+				},
+				"CompanyName": {
+					"type": "string"
+				},
+				"SalesPerson": {
+					"type": "string"
+				},
+				"EmailAddress": {
+					"type": "string"
+				},
+				"Phone": {
+					"type": "string"
+				},
+				"PasswordHash": {
+					"type": "string"
+				},
+				"PasswordSalt": {
+					"type": "string"
+				},
+				"rowguid": {
+					"type": "string"
+				},
+				"ModifiedDate": {
+					"type": "string"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "customer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

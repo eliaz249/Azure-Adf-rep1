@@ -1,0 +1,39 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Json2",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CosmosDbSqlApiCollection1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Flatten1"
+				}
+			],
+			"script": "source(output(\n\t\tfirstName as string,\n\t\tlastName as string,\n\t\tgender as string,\n\t\tage as string,\n\t\taddress as (streetAddress as string, city as string, state as string, postalCode as string),\n\t\tphoneNumbers as (type as string, number as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource(output(\n\t\taddress as (city as string, postalCode as integer, state as string, streetAddress as short),\n\t\tage as short,\n\t\tfirstName as string,\n\t\tgender as string,\n\t\tlastName as string,\n\t\tphoneNumbers as (number as long, type as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tsingleDocument: true) ~> source2\nsource2 foldDown(unroll(phoneNumbers, phoneNumbers),\n\tmapColumn(\n\t\taddress,\n\t\tage,\n\t\tfirstName,\n\t\tgender,\n\t\tlastName,\n\t\tnumber = phoneNumbers.number,\n\t\ttype = phoneNumbers.type\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Flatten1\nFlatten1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'document',\n\tmapColumn(\n\t\taddress,\n\t\tage,\n\t\tfirstName,\n\t\tgender,\n\t\tlastName,\n\t\tnumber,\n\t\ttype\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

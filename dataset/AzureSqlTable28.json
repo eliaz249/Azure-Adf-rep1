@@ -1,0 +1,38 @@
+{
+	"name": "AzureSqlTable28",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Empid",
+				"type": "varchar"
+			},
+			{
+				"name": "Empname",
+				"type": "varchar"
+			},
+			{
+				"name": "Department",
+				"type": "varchar"
+			},
+			{
+				"name": "City",
+				"type": "varchar"
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EmpDim"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,84 @@
+{
+	"name": "dataflow_scd2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText26",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable25",
+						"type": "DatasetReference"
+					},
+					"name": "EmpdimTar"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable26",
+						"type": "DatasetReference"
+					},
+					"name": "MaxKey"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable27",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable27",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable27",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Lookup1"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "DerivedColumn3"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"script": "source(output(\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource(output(\n\t\tSID as integer,\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string,\n\t\tIndicator as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> EmpdimTar\nsource(output(\n\t\tmax_key as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select max([SID]) as max_key from [dbo].[EmpDimT2]',\n\tformat: 'query') ~> MaxKey\nEmpdimTar select(mapColumn(\n\t\tDimSID = SID,\n\t\tDimEmpid = Empid,\n\t\tDimEmpname = Empname,\n\t\tDimDepartment = Department,\n\t\tDimCity = City,\n\t\tDimLastModifiedDate = LastModifiedDate,\n\t\tDimIndicator = Indicator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nsource1, MaxKey join(1==1,\n\tjoinType:'cross',\n\tbroadcast: 'auto')~> Join1\nJoin1, Select1 lookup(Empid == DimEmpid,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 split(isNull(DimEmpid),\n\tdisjoint: false) ~> ConditionalSplit1@(new, exists)\nConditionalSplit1@new derive(Indicator = 1) ~> DerivedColumn1\nConditionalSplit1@exists derive(Indicator = 1) ~> DerivedColumn2\nConditionalSplit1@exists derive(Indicator = 0) ~> DerivedColumn3\nDerivedColumn3 filter(DimSID <= max_key) ~> Filter1\nFilter1 alterRow(updateIf(DimSID<=max_key)) ~> AlterRow1\nDerivedColumn1 sink(input(\n\t\tSID as integer,\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string,\n\t\tIndicator as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tEmpid,\n\t\tEmpname,\n\t\tDepartment,\n\t\tCity,\n\t\tLastModifiedDate,\n\t\tIndicator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1\nDerivedColumn2 sink(input(\n\t\tSID as integer,\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string,\n\t\tIndicator as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink2\nAlterRow1 sink(input(\n\t\tSID as integer,\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string,\n\t\tIndicator as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['SID'],\n\tformat: 'table',\n\tpreSQLs:['set IDENTITY_insert EmpDimT2 on;'],\n\tpostSQLs:['set IDENTITY_insert EmpDimT2 off;'],\n\tmapColumn(\n\t\tSID = DimSID,\n\t\tEmpid = DimEmpid,\n\t\tEmpname = DimEmpname,\n\t\tDepartment = DimDepartment,\n\t\tCity = DimCity,\n\t\tLastModifiedDate = DimLastModifiedDate,\n\t\tIndicator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink3"
+		}
+	}
+}

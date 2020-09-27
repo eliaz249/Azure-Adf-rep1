@@ -1,0 +1,15 @@
+{
+	"name": "CosmosDbSqlApiCollection3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDb_WEB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"typeProperties": {
+			"collectionName": "Saleorddetails"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

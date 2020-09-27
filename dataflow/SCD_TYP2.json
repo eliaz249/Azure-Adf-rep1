@@ -1,0 +1,58 @@
+{
+	"name": "SCD_TYP2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText27",
+						"type": "DatasetReference"
+					},
+					"name": "EmpDataCsv"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable30",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable31",
+						"type": "DatasetReference"
+					},
+					"name": "Maxkey"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable32",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Lookup1"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> EmpDataCsv\nsource(output(\n\t\tSID as integer,\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string,\n\t\tIndicator as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource(output(\n\t\tmax_key as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select max([SID]) as max_key from [dbo].[EmpDimT2]',\n\tformat: 'query') ~> Maxkey\nsource1 select(mapColumn(\n\t\tDimSID = SID,\n\t\tDimEmpid = Empid,\n\t\tDimEmpname = Empname,\n\t\tDimDepartment = Department,\n\t\tDimCity = City,\n\t\tDimLastModifiedDate = LastModifiedDate,\n\t\tDimIndicator = Indicator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nEmpDataCsv, Maxkey join(1==1,\n\tjoinType:'cross',\n\tbroadcast: 'auto')~> Join1\nJoin1, Select1 lookup(Empid == DimEmpid,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 split(isNull(DimEmpid),\n\tdisjoint: false) ~> ConditionalSplit1@(Insert, Exists)\nConditionalSplit1@Insert derive(Indicator = 1) ~> DerivedColumn1\nDerivedColumn1 sink(input(\n\t\tSID as integer,\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string,\n\t\tIndicator as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tEmpid,\n\t\tEmpname,\n\t\tDepartment,\n\t\tCity,\n\t\tLastModifiedDate,\n\t\tIndicator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

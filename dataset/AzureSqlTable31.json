@@ -1,0 +1,13 @@
+{
+	"name": "AzureSqlTable31",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

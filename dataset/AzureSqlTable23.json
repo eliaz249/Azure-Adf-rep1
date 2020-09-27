@@ -1,0 +1,17 @@
+{
+	"name": "AzureSqlTable23",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "Json_TestTable"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

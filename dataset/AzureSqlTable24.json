@@ -1,0 +1,17 @@
+{
+	"name": "AzureSqlTable24",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "Ztest_cosmos"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

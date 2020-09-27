@@ -1,0 +1,28 @@
+{
+	"name": "SQLQuerytoTable",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable4",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable5",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCustomerID as string,\n\t\tCompanyName as string,\n\t\tContactName as string,\n\t\tContactTitle as string,\n\t\tAddress as string,\n\t\tCity as string,\n\t\tOrderID as integer,\n\t\tOrderDate as timestamp,\n\t\tFreight as decimal(19,4),\n\t\tShipAddress as string,\n\t\tShipCity as string,\n\t\tShipCountry as string,\n\t\tShipPostalCode as string,\n\t\tShipRegion as string,\n\t\tProductID as integer,\n\t\tQuantity as short,\n\t\tUnitPrice as decimal(19,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT        Customers.CustomerID, Customers.CompanyName, Customers.ContactName, Customers.ContactTitle, Customers.Address, Customers.City, Orders.OrderID, Orders.OrderDate, Orders.Freight, Orders.ShipAddress,\u000b                         Orders.ShipCity, Orders.ShipCountry, Orders.ShipPostalCode, Orders.ShipRegion, [Order Details].ProductID, [Order Details].Quantity, [Order Details].UnitPrice\u000bFROM            Customers INNER JOIN\u000b                         Orders ON Customers.CustomerID = Orders.CustomerID INNER JOIN\u000b                         [Order Details] ON Orders.OrderID = [Order Details].OrderID\\n',\n\tformat: 'query') ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tmapColumn(\n\t\tCustomerID,\n\t\tCompanyName,\n\t\tContactName,\n\t\tContactTitle,\n\t\tAddress,\n\t\tCity,\n\t\tOrderID,\n\t\tOrderDate,\n\t\tFreight,\n\t\tShipAddress,\n\t\tShipCity,\n\t\tShipCountry,\n\t\tShipPostalCode,\n\t\tShipRegion,\n\t\tProductID,\n\t\tQuantity,\n\t\tUnitPrice\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

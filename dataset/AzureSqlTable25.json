@@ -1,0 +1,48 @@
+{
+	"name": "AzureSqlTable25",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Empid",
+				"type": "varchar"
+			},
+			{
+				"name": "Empname",
+				"type": "varchar"
+			},
+			{
+				"name": "Department",
+				"type": "varchar"
+			},
+			{
+				"name": "City",
+				"type": "varchar"
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "varchar"
+			},
+			{
+				"name": "Indicator",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EmpDimT2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
