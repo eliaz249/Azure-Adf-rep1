@@ -1,0 +1,18 @@
+{
+	"name": "Test_Json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "abs_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "data_8df83670-5b73-4c08-836c-c8e459fb6042_1e725a94-ee96-4cce-99e3-4474199812f8.json",
+				"container": "cn3"
+			}
+		}
+	}
+}
