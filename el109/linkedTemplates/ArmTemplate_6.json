@@ -13,6 +13,233 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SCD_TYPE1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable28",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable29",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AlterRow1"
+						}
+					],
+					"script": "source(output(\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 alterRow(upsertIf(1==1)) ~> AlterRow1\nAlterRow1 sink(input(\n\t\tEmpid as string,\n\t\tEmpname as string,\n\t\tDepartment as string,\n\t\tCity as string,\n\t\tLastModifiedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Empid'],\n\tformat: 'table',\n\tmapColumn(\n\t\tEmpid,\n\t\tEmpname,\n\t\tDepartment,\n\t\tCity,\n\t\tLastModifiedDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQLQuerytoTable')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable4",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\tCustomerID as string,\n\t\tCompanyName as string,\n\t\tContactName as string,\n\t\tContactTitle as string,\n\t\tAddress as string,\n\t\tCity as string,\n\t\tOrderID as integer,\n\t\tOrderDate as timestamp,\n\t\tFreight as decimal(19,4),\n\t\tShipAddress as string,\n\t\tShipCity as string,\n\t\tShipCountry as string,\n\t\tShipPostalCode as string,\n\t\tShipRegion as string,\n\t\tProductID as integer,\n\t\tQuantity as short,\n\t\tUnitPrice as decimal(19,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT        Customers.CustomerID, Customers.CompanyName, Customers.ContactName, Customers.ContactTitle, Customers.Address, Customers.City, Orders.OrderID, Orders.OrderDate, Orders.Freight, Orders.ShipAddress,\u000b                         Orders.ShipCity, Orders.ShipCountry, Orders.ShipPostalCode, Orders.ShipRegion, [Order Details].ProductID, [Order Details].Quantity, [Order Details].UnitPrice\u000bFROM            Customers INNER JOIN\u000b                         Orders ON Customers.CustomerID = Orders.CustomerID INNER JOIN\u000b                         [Order Details] ON Orders.OrderID = [Order Details].OrderID\\n',\n\tformat: 'query') ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tmapColumn(\n\t\tCustomerID,\n\t\tCompanyName,\n\t\tContactName,\n\t\tContactTitle,\n\t\tAddress,\n\t\tCity,\n\t\tOrderID,\n\t\tOrderDate,\n\t\tFreight,\n\t\tShipAddress,\n\t\tShipCity,\n\t\tShipCountry,\n\t\tShipPostalCode,\n\t\tShipRegion,\n\t\tProductID,\n\t\tQuantity,\n\t\tUnitPrice\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesFactTable')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SalesOrdHdr",
+								"type": "DatasetReference"
+							},
+							"name": "SaleOrdHdr"
+						},
+						{
+							"dataset": {
+								"referenceName": "SaleOrdItem",
+								"type": "DatasetReference"
+							},
+							"name": "SaleOrdItem"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable16",
+								"type": "DatasetReference"
+							},
+							"name": "Product"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable17",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SaleHdrItemJoin"
+						},
+						{
+							"name": "HdrItemselection"
+						},
+						{
+							"name": "ProductSaleDetailsJoin"
+						},
+						{
+							"name": "Select1"
+						}
+					],
+					"script": "source(output(\n\t\tSalesOrderID as integer,\n\t\tRevisionNumber as byte,\n\t\tOrderDate as timestamp,\n\t\tDueDate as timestamp,\n\t\tShipDate as timestamp,\n\t\tStatus as byte,\n\t\tOnlineOrderFlag as boolean,\n\t\tSalesOrderNumber as string,\n\t\tPurchaseOrderNumber as string,\n\t\tAccountNumber as string,\n\t\tCustomerID as integer,\n\t\tShipToAddressID as integer,\n\t\tBillToAddressID as integer,\n\t\tShipMethod as string,\n\t\tCreditCardApprovalCode as string,\n\t\tSubTotal as decimal(19,4),\n\t\tTaxAmt as decimal(19,4),\n\t\tFreight as decimal(19,4),\n\t\tTotalDue as decimal(19,4),\n\t\tComment as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SaleOrdHdr\nsource(output(\n\t\tSalesOrderID as integer,\n\t\tSalesOrderDetailID as integer,\n\t\tOrderQty as short,\n\t\tProductID as integer,\n\t\tUnitPrice as decimal(19,4),\n\t\tUnitPriceDiscount as decimal(19,4),\n\t\tLineTotal as decimal(38,6),\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SaleOrdItem\nsource(output(\n\t\tProductID as integer,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tColor as string,\n\t\tStandardCost as decimal(19,4),\n\t\tListPrice as decimal(19,4),\n\t\tSize as string,\n\t\tWeight as decimal(8,2),\n\t\tProductCategoryID as integer,\n\t\tProductModelID as integer,\n\t\tSellStartDate as timestamp,\n\t\tSellEndDate as timestamp,\n\t\tDiscontinuedDate as timestamp,\n\t\tThumbNailPhoto as binary,\n\t\tThumbnailPhotoFileName as string,\n\t\trowguid as string,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Product\nSaleOrdHdr, SaleOrdItem join(SaleOrdHdr@SalesOrderID == SaleOrdItem@SalesOrderID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> SaleHdrItemJoin\nSaleHdrItemJoin select(mapColumn(\n\t\tSalesOrderNo = SaleOrdHdr@SalesOrderID,\n\t\tOrderDate,\n\t\tOrderFlag = OnlineOrderFlag,\n\t\tCustomerID,\n\t\tSubTotal,\n\t\tTaxAmt,\n\t\tFreight,\n\t\tTotalDue,\n\t\tOrderQty,\n\t\tProductID,\n\t\tUnitPrice,\n\t\tUnitPriceDiscount,\n\t\tLineTotal\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> HdrItemselection\nHdrItemselection, Product join(HdrItemselection@ProductID == Product@ProductID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> ProductSaleDetailsJoin\nProductSaleDetailsJoin select(mapColumn(\n\t\tSalesOrderNo,\n\t\tOrderDate,\n\t\tOrderFlag,\n\t\tCustomerID,\n\t\tSubTotal,\n\t\tTaxAmt,\n\t\tFreight,\n\t\tTotalDue,\n\t\tOrderQty,\n\t\tProductID = HdrItemselection@ProductID,\n\t\tUnitPrice,\n\t\tUnitPriceDiscount,\n\t\tLineTotal,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tProductCategoryID,\n\t\tProductModelID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tSalesOrderNo,\n\t\tOrderDate,\n\t\tOrderFlag,\n\t\tCustomerID,\n\t\tSubTotal,\n\t\tTaxAmt,\n\t\tFreight,\n\t\tTotalDue,\n\t\tOrderQty,\n\t\tProductID,\n\t\tUnitPrice,\n\t\tUnitPriceDiscount,\n\t\tLineTotal,\n\t\tStandardCost,\n\t\tListPrice,\n\t\tProductCategoryID,\n\t\tProductModelID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SchemaDrift')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText18",
+								"type": "DatasetReference"
+							},
+							"name": "ActualFile"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText20",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\tsno as integer,\n\t\t{financial year} as integer,\n\t\tquarter as string,\n\t\tamount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tpreferredIntegralType: 'integer') ~> ActualFile\nActualFile sink(input(\n\t\tsno as string,\n\t\t{financial year} as string,\n\t\tquarter as string,\n\t\tamount as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['ActualData.csv'],\n\tmapColumn(\n\t\t{financial year},\n\t\tquarter,\n\t\tamount\n\t),\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WranglingDataFlow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "WranglingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"name": "Cust",
+							"script": "",
+							"dataset": {
+								"referenceName": "Cust",
+								"type": "DatasetReference"
+							}
+						},
+						{
+							"name": "saleordHdr",
+							"script": "",
+							"dataset": {
+								"referenceName": "saleordHdr",
+								"type": "DatasetReference"
+							}
+						}
+					],
+					"sinks": [
+						{
+							"name": "Sink1",
+							"dataset": {
+								"referenceName": "Target_file",
+								"type": "DatasetReference"
+							},
+							"script": "sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['SlaesFact.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Sink1"
+						}
+					],
+					"script": "section Section1;\r\nshared Cust = let\r\n  AdfDoc = Sql.Database(\"el109.database.windows.net\", \"el109\"),\r\n  InputTable = AdfDoc{[Schema = \"SalesLT\", Item = \"Customer\"]}[Data]\r\nin\r\n  InputTable;\r\nshared saleordHdr = let\r\n  AdfDoc = Sql.Database(\"el109.database.windows.net\", \"el109\"),\r\n  InputTable = AdfDoc{[Schema = \"SalesLT\", Item = \"SalesOrderHeader\"]}[Data]\r\nin\r\n  InputTable;\r\nshared UserQuery = let\r\n  Source = Cust,\r\n  #\"Merged queries\" = Table.NestedJoin(Source, {\"CustomerID\"}, saleordHdr, {\"CustomerID\"}, \"saleordHdr\", JoinKind.Inner),\r\n  #\"Expanded SalesLT.CustomerAddress\" = Table.ExpandTableColumn(#\"Merged queries\", \"SalesLT.CustomerAddress\", {\"CustomerID\", \"AddressID\", \"AddressType\", \"rowguid\", \"ModifiedDate\", \"SalesLT.Address\", \"SalesLT.Customer\"}, {\"SalesLT.CustomerAddress.CustomerID\", \"SalesLT.CustomerAddress.AddressID\", \"SalesLT.CustomerAddress.AddressType\", \"SalesLT.CustomerAddress.rowguid\", \"SalesLT.CustomerAddress.ModifiedDate\", \"SalesLT.CustomerAddress.SalesLT.Address\", \"SalesLT.CustomerAddress.SalesLT.Customer\"}),\r\n  #\"Expanded SalesLT.CustomerAddress.SalesLT.Customer\" = Table.ExpandRecordColumn(#\"Expanded SalesLT.CustomerAddress\", \"SalesLT.CustomerAddress.SalesLT.Customer\", {\"CustomerID\", \"NameStyle\", \"Title\", \"FirstName\", \"MiddleName\", \"LastName\", \"Suffix\", \"CompanyName\", \"SalesPerson\", \"EmailAddress\", \"Phone\", \"PasswordHash\", \"PasswordSalt\", \"rowguid\", \"ModifiedDate\", \"SalesLT.CustomerAddress\", \"SalesLT.SalesOrderHeader\"}, {\"SalesLT.CustomerAddress.SalesLT.Customer.CustomerID\", \"SalesLT.CustomerAddress.SalesLT.Customer.NameStyle\", \"SalesLT.CustomerAddress.SalesLT.Customer.Title\", \"SalesLT.CustomerAddress.SalesLT.Customer.FirstName\", \"SalesLT.CustomerAddress.SalesLT.Customer.MiddleName\", \"SalesLT.CustomerAddress.SalesLT.Customer.LastName\", \"SalesLT.CustomerAddress.SalesLT.Customer.Suffix\", \"SalesLT.CustomerAddress.SalesLT.Customer.CompanyName\", \"SalesLT.CustomerAddress.SalesLT.Customer.SalesPerson\", \"SalesLT.CustomerAddress.SalesLT.Customer.EmailAddress\", \"SalesLT.CustomerAddress.SalesLT.Customer.Phone\", \"SalesLT.CustomerAddress.SalesLT.Customer.PasswordHash\", \"SalesLT.CustomerAddress.SalesLT.Customer.PasswordSalt\", \"SalesLT.CustomerAddress.SalesLT.Customer.rowguid\", \"SalesLT.CustomerAddress.SalesLT.Customer.ModifiedDate\", \"SalesLT.CustomerAddress.SalesLT.Customer.SalesLT.CustomerAddress\", \"SalesLT.CustomerAddress.SalesLT.Customer.SalesLT.SalesOrderHeader\"}),\r\n  #\"Expanded saleordHdr\" = Table.ExpandTableColumn(#\"Expanded SalesLT.CustomerAddress.SalesLT.Customer\", \"saleordHdr\", {\"SalesOrderID\", \"RevisionNumber\", \"OrderDate\", \"DueDate\", \"ShipDate\", \"Status\", \"OnlineOrderFlag\", \"SalesOrderNumber\", \"PurchaseOrderNumber\", \"AccountNumber\", \"CustomerID\", \"ShipToAddressID\", \"BillToAddressID\", \"ShipMethod\", \"CreditCardApprovalCode\", \"SubTotal\", \"TaxAmt\", \"Freight\", \"TotalDue\", \"Comment\", \"rowguid\", \"ModifiedDate\", \"SalesLT.Address(BillToAddressID)\", \"SalesLT.Address(ShipToAddressID)\", \"SalesLT.Customer\", \"SalesLT.SalesOrderDetail\"}, {\"saleordHdr.SalesOrderID\", \"saleordHdr.RevisionNumber\", \"saleordHdr.OrderDate\", \"saleordHdr.DueDate\", \"saleordHdr.ShipDate\", \"saleordHdr.Status\", \"saleordHdr.OnlineOrderFlag\", \"saleordHdr.SalesOrderNumber\", \"saleordHdr.PurchaseOrderNumber\", \"saleordHdr.AccountNumber\", \"saleordHdr.CustomerID\", \"saleordHdr.ShipToAddressID\", \"saleordHdr.BillToAddressID\", \"saleordHdr.ShipMethod\", \"saleordHdr.CreditCardApprovalCode\", \"saleordHdr.SubTotal\", \"saleordHdr.TaxAmt\", \"saleordHdr.Freight\", \"saleordHdr.TotalDue\", \"saleordHdr.Comment\", \"saleordHdr.rowguid\", \"saleordHdr.ModifiedDate\", \"saleordHdr.SalesLT.Address(BillToAddressID)\", \"saleordHdr.SalesLT.Address(ShipToAddressID)\", \"saleordHdr.SalesLT.Customer\", \"saleordHdr.SalesLT.SalesOrderDetail\"}),\r\n  #\"Expanded saleordHdr.SalesLT.SalesOrderDetail\" = Table.ExpandTableColumn(#\"Expanded saleordHdr\", \"saleordHdr.SalesLT.SalesOrderDetail\", {\"SalesOrderID\", \"SalesOrderDetailID\", \"OrderQty\", \"ProductID\", \"UnitPrice\", \"UnitPriceDiscount\", \"LineTotal\", \"rowguid\", \"ModifiedDate\", \"SalesLT.Product\", \"SalesLT.SalesOrderHeader\"}, {\"saleordHdr.SalesLT.SalesOrderDetail.SalesOrderID\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesOrderDetailID\", \"saleordHdr.SalesLT.SalesOrderDetail.OrderQty\", \"saleordHdr.SalesLT.SalesOrderDetail.ProductID\", \"saleordHdr.SalesLT.SalesOrderDetail.UnitPrice\", \"saleordHdr.SalesLT.SalesOrderDetail.UnitPriceDiscount\", \"saleordHdr.SalesLT.SalesOrderDetail.LineTotal\", \"saleordHdr.SalesLT.SalesOrderDetail.rowguid\", \"saleordHdr.SalesLT.SalesOrderDetail.ModifiedDate\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.Product\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader\"}),\r\n  #\"Expanded saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader\" = Table.ExpandRecordColumn(#\"Expanded saleordHdr.SalesLT.SalesOrderDetail\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader\", {\"SalesOrderID\", \"RevisionNumber\", \"OrderDate\", \"DueDate\", \"ShipDate\", \"Status\", \"OnlineOrderFlag\", \"SalesOrderNumber\", \"PurchaseOrderNumber\", \"AccountNumber\", \"CustomerID\", \"ShipToAddressID\", \"BillToAddressID\", \"ShipMethod\", \"CreditCardApprovalCode\", \"SubTotal\", \"TaxAmt\", \"Freight\", \"TotalDue\", \"Comment\", \"rowguid\", \"ModifiedDate\", \"SalesLT.Address(BillToAddressID)\", \"SalesLT.Address(ShipToAddressID)\", \"SalesLT.Customer\", \"SalesLT.SalesOrderDetail\"}, {\"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesOrderID\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.RevisionNumber\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.OrderDate\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.DueDate\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.ShipDate\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.Status\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.OnlineOrderFlag\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesOrderNumber\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.PurchaseOrderNumber\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.AccountNumber\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.CustomerID\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.ShipToAddressID\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.BillToAddressID\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.ShipMethod\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.CreditCardApprovalC\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SubTotal\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.TaxAmt\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.Freight\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.TotalDue\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.Comment\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.rowguid\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.ModifiedDate\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Address(Bil\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Address(Shi\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.SalesOrderD\"}),\r\n  #\"Expanded saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer\" = Table.ExpandRecordColumn(#\"Expanded saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer\", {\"CustomerID\", \"NameStyle\", \"Title\", \"FirstName\", \"MiddleName\", \"LastName\", \"Suffix\", \"CompanyName\", \"SalesPerson\", \"EmailAddress\", \"Phone\", \"PasswordHash\", \"PasswordSalt\", \"rowguid\", \"ModifiedDate\", \"SalesLT.CustomerAddress\", \"SalesLT.SalesOrderHeader\"}, {\"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Cu\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Na\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Ti\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Fi\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Mi\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.La\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Su\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Co\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Sa\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Em\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Ph\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Pa\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer..1\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.ro\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer.Mo\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer..2\", \"saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer..3\"}),\r\n  #\"Removed columns\" = Table.RemoveColumns(#\"Expanded saleordHdr.SalesLT.SalesOrderDetail.SalesLT.SalesOrderHeader.SalesLT.Customer\", {\"Suffix\", \"saleordHdr.SalesLT.Address(BillToAddressID)\"})\r\nin\r\n  #\"Removed columns\";\r\n"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WranglingDataFlow_Test')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "WranglingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"name": "DelimitedText7",
+							"script": "",
+							"dataset": {
+								"referenceName": "DelimitedText7",
+								"type": "DatasetReference"
+							}
+						}
+					],
+					"sinks": [
+						{
+							"name": "Sink1",
+							"dataset": {
+								"referenceName": "DelimitedText8",
+								"type": "DatasetReference"
+							},
+							"script": "sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Sink1"
+						}
+					],
+					"script": "section Section1;\r\nshared DelimitedText7 = let\r\n  AdfDoc = AzureStorage.BlobContents(\"https://el109.blob.core.windows.net/cn1/planned.csv\"),\r\n  Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]),\r\n  PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true])\r\nin\r\n  PromotedHeaders;\r\nshared UserQuery = let\r\n  Source = DelimitedText7,\r\n  #\"Removed columns\" = Table.RemoveColumns(Source, {\"sno\"})\r\nin\r\n  #\"Removed columns\";\r\n"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -310,7 +537,9 @@
 				"annotations": [],
 				"lastPublishTime": "2020-09-25T12:49:01Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/SalesFactTable')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SCDtype1')]",
@@ -351,7 +580,9 @@
 				"annotations": [],
 				"lastPublishTime": "2020-09-27T13:34:47Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/SCD_TYPE1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SalesFact')]",
@@ -615,221 +846,9 @@
 				"annotations": [],
 				"lastPublishTime": "2020-09-17T01:10:00Z"
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline7')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dataflow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow1",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"source2": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2020-09-17T19:56:34Z"
-			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+				"[concat(variables('factoryId'), '/dataflows/SQLQuerytoTable')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline9')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dataflow2",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow2",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2020-09-21T01:48:20Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline_SCDTYP2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dataflow_scd2",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_scd2",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"EmpdimTar": {},
-									"MaxKey": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2020-09-27T02:38:29Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_scd2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline_wdf')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "WranglingDataFlow_Test",
-						"type": "ExecuteWranglingDataflow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "WranglingDataFlow_Test",
-								"type": "DataFlowReference",
-								"datasetParameters": {
-									"DelimitedText7": {},
-									"Sink1": {}
-								}
-							},
-							"staging": {}
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2020-09-16T13:16:10Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/schemadrift')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SchemaDrift",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "SchemaDrift",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ActualFile": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"folder": {
-					"name": "Folder_Training"
-				},
-				"annotations": [],
-				"lastPublishTime": "2020-09-23T11:25:36Z"
-			},
-			"dependsOn": []
 		}
 	]
 }
