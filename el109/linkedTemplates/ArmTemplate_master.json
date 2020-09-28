@@ -1,0 +1,267 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "el109"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureDataLakeStore_Test1_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStore_Test1'"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"CosmosDb1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDb1'"
+		},
+		"CosmosDb2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDb2'"
+		},
+		"CosmosDb_WEB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDb_WEB'"
+		},
+		"LS_109_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_109'"
+		},
+		"LS_110_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_110'"
+		},
+		"LS_VTEST_SOURCE_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_VTEST_SOURCE'"
+		},
+		"abs_109_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'abs_109'"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
+			"type": "string",
+			"defaultValue": "https://el109.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "a13c318b-1b15-44f7-b542-18228483c930"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "d81c188b-26ac-4da0-9b89-fbe35ac0109a"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "9c397d07-182b-4345-b732-9d07597217ad"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "el109"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "el109_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureDataLakeStore_Test1_servicePrincipalKey": {
+						"value": "[parameters('AzureDataLakeStore_Test1_servicePrincipalKey')]"
+					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
+					"CosmosDb1_connectionString": {
+						"value": "[parameters('CosmosDb1_connectionString')]"
+					},
+					"CosmosDb2_connectionString": {
+						"value": "[parameters('CosmosDb2_connectionString')]"
+					},
+					"CosmosDb_WEB_connectionString": {
+						"value": "[parameters('CosmosDb_WEB_connectionString')]"
+					},
+					"LS_109_connectionString": {
+						"value": "[parameters('LS_109_connectionString')]"
+					},
+					"LS_110_connectionString": {
+						"value": "[parameters('LS_110_connectionString')]"
+					},
+					"LS_VTEST_SOURCE_connectionString": {
+						"value": "[parameters('LS_VTEST_SOURCE_connectionString')]"
+					},
+					"abs_109_connectionString": {
+						"value": "[parameters('abs_109_connectionString')]"
+					},
+					"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
+						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri')]"
+					},
+					"AzureDataLakeStore_Test1_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_servicePrincipalId')]"
+					},
+					"AzureDataLakeStore_Test1_properties_typeProperties_tenant": {
+						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_tenant')]"
+					},
+					"AzureDataLakeStore_Test1_properties_typeProperties_subscriptionId": {
+						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_subscriptionId')]"
+					},
+					"AzureDataLakeStore_Test1_properties_typeProperties_resourceGroupName": {
+						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_resourceGroupName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "el109_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "el109_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "el109_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "el109_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "el109_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_4')]"
+			]
+		},
+		{
+			"name": "el109_ArmTemplate_6",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_6.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_5')]"
+			]
+		}
+	]
+}

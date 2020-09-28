@@ -1,0 +1,406 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "el109"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/PipeLineTest')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DelimitedText28",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json5",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DelimitedText28')]",
+				"[concat(variables('factoryId'), '/datasets/Json5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PipleGitTest')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Test_Json",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json6",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Test_Json')]",
+				"[concat(variables('factoryId'), '/datasets/Json6')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText28')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "abs_109",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "data_8df83670-5b73-4c08-836c-c8e459fb6042_1e725a94-ee96-4cce-99e3-4474199812f8.json",
+						"container": "cn3"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "{\"CustomerID\":606",
+						"type": "String"
+					},
+					{
+						"name": "\"NameStyle\":false",
+						"type": "String"
+					},
+					{
+						"name": "\"Title\":\"Ms.\"",
+						"type": "String"
+					},
+					{
+						"name": "\"FirstName\":\"Helge\"",
+						"type": "String"
+					},
+					{
+						"name": "\"MiddleName\":null",
+						"type": "String"
+					},
+					{
+						"name": "\"LastName\":\"Hoeing\"",
+						"type": "String"
+					},
+					{
+						"name": "\"Suffix\":null",
+						"type": "String"
+					},
+					{
+						"name": "\"CompanyName\":\"Little Bicycle Supply Shop\"",
+						"type": "String"
+					},
+					{
+						"name": "\"SalesPerson\":\"adventure-works\\\\jillian0\"",
+						"type": "String"
+					},
+					{
+						"name": "\"EmailAddress\":\"helge0@adventure-works.com\"",
+						"type": "String"
+					},
+					{
+						"name": "\"Phone\":\"850-555-0198\"",
+						"type": "String"
+					},
+					{
+						"name": "\"PasswordHash\":\"hbXMO61Cy3vQxyCiHA7HyFryiQNgK7GAqMxsht+DVBI=\"",
+						"type": "String"
+					},
+					{
+						"name": "\"PasswordSalt\":\"yvAO+sY=\"",
+						"type": "String"
+					},
+					{
+						"name": "\"rowguid\":\"efb59c1a-467f-4946-bce9-72ea3e3e2236\"",
+						"type": "String"
+					},
+					{
+						"name": "\"ModifiedDate\":\"2007-08-01T00:00:00\"",
+						"type": "String"
+					},
+					{
+						"name": "\"id\":\"21f78d79-a582-4057-9207-fa88e3149141\"",
+						"type": "String"
+					},
+					{
+						"name": "\"_rid\":\"2EYiAKnM8aABAAAAAAAAAA==\"",
+						"type": "String"
+					},
+					{
+						"name": "\"_self\":\"dbs/2EYiAA==/colls/2EYiAKnM8aA=/docs/2EYiAKnM8aABAAAAAAAAAA==/\"",
+						"type": "String"
+					},
+					{
+						"name": "\"_etag\":\"\\\"00002900-0000-0700-0000-5f61e6b80000\\\"\"",
+						"type": "String"
+					},
+					{
+						"name": "\"_attachments\":\"attachments/\"",
+						"type": "String"
+					},
+					{
+						"name": "\"_ts\":1600251576}",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "abs_109",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "cn1"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"firstName": {
+							"type": "string"
+						},
+						"lastName": {
+							"type": "string"
+						},
+						"gender": {
+							"type": "string"
+						},
+						"age": {
+							"type": "integer"
+						},
+						"address": {
+							"type": "object",
+							"properties": {
+								"streetAddress": {
+									"type": "string"
+								},
+								"city": {
+									"type": "string"
+								},
+								"state": {
+									"type": "string"
+								},
+								"postalCode": {
+									"type": "string"
+								}
+							}
+						},
+						"phoneNumbers": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string"
+									},
+									"number": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "abs_109",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "cn1"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"firstName": {
+							"type": "string"
+						},
+						"lastName": {
+							"type": "string"
+						},
+						"gender": {
+							"type": "string"
+						},
+						"age": {
+							"type": "integer"
+						},
+						"address": {
+							"type": "object",
+							"properties": {
+								"streetAddress": {
+									"type": "string"
+								},
+								"city": {
+									"type": "string"
+								},
+								"state": {
+									"type": "string"
+								},
+								"postalCode": {
+									"type": "string"
+								}
+							}
+						},
+						"phoneNumbers": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string"
+									},
+									"number": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Test_Json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "abs_109",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "data_8df83670-5b73-4c08-836c-c8e459fb6042_1e725a94-ee96-4cce-99e3-4474199812f8.json",
+						"container": "cn3"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

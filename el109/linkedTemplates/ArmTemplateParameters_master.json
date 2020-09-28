@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "el109"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStore_Test1_servicePrincipalKey": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"CosmosDb1_connectionString": {
+			"value": ""
+		},
+		"CosmosDb2_connectionString": {
+			"value": ""
+		},
+		"CosmosDb_WEB_connectionString": {
+			"value": ""
+		},
+		"LS_109_connectionString": {
+			"value": ""
+		},
+		"LS_110_connectionString": {
+			"value": ""
+		},
+		"LS_VTEST_SOURCE_connectionString": {
+			"value": ""
+		},
+		"abs_109_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
+			"value": "https://el109.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_servicePrincipalId": {
+			"value": "a13c318b-1b15-44f7-b542-18228483c930"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_tenant": {
+			"value": "d81c188b-26ac-4da0-9b89-fbe35ac0109a"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_subscriptionId": {
+			"value": "9c397d07-182b-4345-b732-9d07597217ad"
+		},
+		"AzureDataLakeStore_Test1_properties_typeProperties_resourceGroupName": {
+			"value": "el109"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
