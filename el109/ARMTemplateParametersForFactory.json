@@ -35,6 +35,9 @@
 		"abs_109_connectionString": {
 			"value": ""
 		},
+		"LS_SQLP_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://el109.azuredatalakestore.net/webhdfs/v1"
 		},

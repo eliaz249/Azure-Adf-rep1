@@ -47,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'abs_109'"
 		},
+		"LS_SQLP_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_SQLP'"
+		},
 		"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
 			"defaultValue": "https://el109.azuredatalakestore.net/webhdfs/v1"
@@ -123,6 +127,9 @@
 					},
 					"abs_109_connectionString": {
 						"value": "[parameters('abs_109_connectionString')]"
+					},
+					"LS_SQLP_connectionString": {
+						"value": "[parameters('LS_SQLP_connectionString')]"
 					},
 					"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
 						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri')]"
