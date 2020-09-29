@@ -1,0 +1,23 @@
+{
+	"name": "DatasqlP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLP",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TableNameP": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"table": {
+				"value": "@dataset().TableNameP",
+				"type": "Expression"
+			}
+		}
+	}
+}
