@@ -3,10 +3,19 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_SQLP",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LS_P": {
+					"value": "@dataset().DBNAME",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"TableNameP": {
+				"type": "string"
+			},
+			"DBNAME": {
 				"type": "string"
 			}
 		},
