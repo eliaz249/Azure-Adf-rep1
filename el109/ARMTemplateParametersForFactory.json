@@ -29,13 +29,13 @@
 		"LS_110_connectionString": {
 			"value": ""
 		},
+		"LS_SQLP_connectionString": {
+			"value": ""
+		},
 		"LS_VTEST_SOURCE_connectionString": {
 			"value": ""
 		},
 		"abs_109_connectionString": {
-			"value": ""
-		},
-		"LS_SQLP_connectionString": {
 			"value": ""
 		},
 		"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {

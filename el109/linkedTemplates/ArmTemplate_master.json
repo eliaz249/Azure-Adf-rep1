@@ -39,6 +39,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_110'"
 		},
+		"LS_SQLP_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_SQLP'"
+		},
 		"LS_VTEST_SOURCE_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_VTEST_SOURCE'"
@@ -46,10 +50,6 @@
 		"abs_109_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'abs_109'"
-		},
-		"LS_SQLP_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_SQLP'"
 		},
 		"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
@@ -122,14 +122,14 @@
 					"LS_110_connectionString": {
 						"value": "[parameters('LS_110_connectionString')]"
 					},
+					"LS_SQLP_connectionString": {
+						"value": "[parameters('LS_SQLP_connectionString')]"
+					},
 					"LS_VTEST_SOURCE_connectionString": {
 						"value": "[parameters('LS_VTEST_SOURCE_connectionString')]"
 					},
 					"abs_109_connectionString": {
 						"value": "[parameters('abs_109_connectionString')]"
-					},
-					"LS_SQLP_connectionString": {
-						"value": "[parameters('LS_SQLP_connectionString')]"
 					},
 					"AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri": {
 						"value": "[parameters('AzureDataLakeStore_Test1_properties_typeProperties_dataLakeStoreUri')]"
@@ -288,6 +288,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_6')]"
+			]
+		},
+		{
+			"name": "el109_ArmTemplate_8",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_8.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'el109_ArmTemplate_7')]"
 			]
 		}
 	]
