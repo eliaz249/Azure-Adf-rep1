@@ -1,0 +1,45 @@
+{
+	"name": "Table_Comparision",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable40",
+						"type": "DatasetReference"
+					},
+					"name": "OrdSrc"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable41",
+						"type": "DatasetReference"
+					},
+					"name": "OrdTar"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable42",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Lookup1"
+				},
+				{
+					"name": "Filter1"
+				}
+			],
+			"script": "source(output(\n\t\tOrderID as integer,\n\t\tCustomerID as string,\n\t\tEmployeeID as integer,\n\t\torderdate as date,\n\t\torderamt as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> OrdSrc\nsource(output(\n\t\tOrderID as integer,\n\t\tCustomerID as string,\n\t\tEmployeeID as integer,\n\t\torderdate as date,\n\t\torderamt as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> OrdTar\nOrdTar select(mapColumn(\n\t\tOrderID_Tar = OrderID,\n\t\tCustomerID_Tar = CustomerID,\n\t\tEmployeeID_Tar = EmployeeID,\n\t\torderdate_Tar = orderdate,\n\t\torderamt_Tar = orderamt\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nOrdSrc, Select1 lookup(OrderID == OrderID_Tar,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 filter(isNull(OrderID_Tar)) ~> Filter1\nFilter1 sink(input(\n\t\tOrderID as integer,\n\t\tCustomerID as string,\n\t\tEmployeeID as integer,\n\t\torderdate as date,\n\t\torderamt as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tOrderID,\n\t\tCustomerID,\n\t\tEmployeeID,\n\t\torderdate,\n\t\torderamt\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

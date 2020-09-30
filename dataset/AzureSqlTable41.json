@@ -1,0 +1,41 @@
+{
+	"name": "AzureSqlTable41",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_110",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "orderdate",
+				"type": "date"
+			},
+			{
+				"name": "orderamt",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Ord_Tar"
+		}
+	}
+}
