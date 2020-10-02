@@ -1,0 +1,16 @@
+{
+	"name": "AzureSqlTable48",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_110",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "Group2Sales"
+		}
+	}
+}
