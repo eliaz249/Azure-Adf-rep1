@@ -18,7 +18,7 @@
 					"name": "Pivot1"
 				}
 			],
-			"script": "source(output(\n\t\tstudent as string,\n\t\tcourse as string,\n\t\tmarks as decimal(28,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 pivot(groupBy(student),\n\tpivotBy(course),\n\tSumMarks = sum(marks),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot1"
+			"script": "source(output(\n\t\tstudent as string,\n\t\tcourse as string,\n\t\tmarks as decimal(28,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 pivot(groupBy(student),\n\tpivotBy(course),\n\tMarks = sum(marks),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot1"
 		}
 	}
 }
