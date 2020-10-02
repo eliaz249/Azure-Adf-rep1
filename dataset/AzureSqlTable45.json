@@ -1,0 +1,31 @@
+{
+	"name": "AzureSqlTable45",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "student",
+				"type": "varchar"
+			},
+			{
+				"name": "course",
+				"type": "varchar"
+			},
+			{
+				"name": "marks",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PivotSource"
+		}
+	}
+}

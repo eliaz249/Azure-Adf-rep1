@@ -1,0 +1,28 @@
+{
+	"name": "DelimitedText34",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "abs_109",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "PIVOTSOURCE.txt",
+				"container": "cn1"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "student\tcourse\tmarks",
+				"type": "String"
+			}
+		]
+	}
+}
